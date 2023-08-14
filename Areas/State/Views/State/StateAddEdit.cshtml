@@ -1,0 +1,32 @@
+﻿@using System.Data
+@model Country_State_City_Final.Areas.State.Models.StateModel
+
+
+<form method="post" asp-action="StateSave">
+    @Html.HiddenFor(x=>x.StateId)
+    <h1>@ViewBag.allcountry</h1>
+    <div class="mb-3">
+        <label class="form-label">State Name</label>
+        <input type="text" class="form-control" asp-for="StateName">
+        <span class="form-text" asp-validation-for="StateName"> </span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">CountryId</label>
+        <input type="text" class="form-control" asp-for="CountryId">
+        <span class="form-text" asp-validation-for="CountryId"> </span>
+    </div>
+
+    <select id="inputState" class="form-control" asp-for="CountryId"
+            asp-items="@(new SelectList(ViewBag.CountryList,"CountryId","CountryName"))">
+
+        <option disabled selected>Select Country</option>
+    </select>
+    <span asp-validation-for="CountryId" class="text-danger"></span>
+
+    <div class="mb-3">
+        <label class="form-label">StateCode</label>
+        <input type="text" class="form-control" asp-for="StateCode">
+        <span class="form-text" asp-validation-for="StateCode"> </span>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

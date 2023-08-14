@@ -1,0 +1,48 @@
+﻿@using System.Data
+@model DataTable
+<a type="button" class="btn btn-success" asp-area="State" asp-controller="State" asp-action="StateAddEdit">Add New State</a>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">StateId</th>
+            <th scope="col">StateName</th>
+            <th scope="col">StateCode</th>
+            <th scope="col">CountryName</th>
+            <th scope="col">Created</th>
+            <th scope="col">Modified</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Rows.Count <= 0)
+        {
+            <tr>
+                <td class="col text-danger">Norecord</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (DataRow dataRow in Model.Rows)
+            {
+                <tr>
+                    <td>@dataRow["StateId"]</td>
+                    <td> @dataRow["StateName"]</td>
+                    <td> @dataRow["StateCode"]</td>
+                    <td> @dataRow["CountryName"]</td>
+                    <td> @dataRow["Created"]</td>
+                    <td> @dataRow["Modified"]</td>
+                    <td>
+                        <a type="button" class="btn btn-danger" asp-route-StateId="@Convert.ToInt32(dataRow["StateId"])" asp-action="StateDelete">Delete</a>
+                        <a type="button" class="btn btn-info" asp-route-StateId="@Convert.ToInt32(dataRow["StateId"])" asp-action="StateAddEdit">Edit</a>
+                    </td>
+                </tr>
+            }
+
+
+
+        }
+
+    </tbody>
+</table>

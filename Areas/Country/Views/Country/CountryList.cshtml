@@ -1,0 +1,52 @@
+﻿@using System.Data
+
+@model DataTable
+
+
+
+<select class="form-select" aria-label="Default select example">
+    <option selected>Open this select menu</option>
+    @foreach (DataRow dataRow in Model.Rows)
+    {
+        <option value="3">@dataRow["CountryName"]</option>
+    }
+</select>
+
+<a type="button" class="btn btn-success mt-5" asp-area="Country" asp-controller="Country" asp-action="CountryAddEdit">Add New Country</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">CountryName</th>
+            <th scope="col">Country Code</th>
+            <th scope="col">Created</th>
+            <th scope="col">Modified</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model.Rows.Count <= 0)
+        {
+            <tr>
+                <td class="col text-danger text-center">Norecord</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (DataRow dataRow in Model.Rows)
+            {
+                <tr>
+                    <td>@dataRow["CountryName"]</td>
+                    <td>@dataRow["CountryCode"]</td>
+                    <td>@dataRow["Created"]</td>
+                    <td>@dataRow["Modified"]</td>
+                    <td>
+                        <a type="button" class="btn btn-danger" asp-action="CountryDelete" asp-route-CountryId="@Convert.ToInt32(dataRow["CountryID"])" >Delete</a>
+                        <a type="button" class="btn btn-warning" asp-area="Country" asp-controller="Country" asp-action="CountryAddEdit" asp-route-CountryId="@Convert.ToInt32(dataRow["CountryID"])" >edit</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
