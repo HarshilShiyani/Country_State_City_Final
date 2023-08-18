@@ -9,7 +9,7 @@ namespace Country_State_City_Final.Areas.State.Models
         [Required(ErrorMessage = ("Please Enter Country Name"))]
         public string? StateName { get; set; }
 
-        [Required(ErrorMessage = ("Please Enter Country id"))]
+        [Required(ErrorMessage = ("Please Select Country"))]
         public int? CountryId { get; set; }
 
         [Required(ErrorMessage = ("Please Enter Country Code"))]
@@ -17,10 +17,14 @@ namespace Country_State_City_Final.Areas.State.Models
         public DateTime Created { get; set; }
         public DateTime Modified { get; set; }
 
+        public string? searchstring { get; set; }
+
+
     }
-    public class LOC_CountryDropDownModel
+    public class CountryDropDownModel
     {
         public int CountryId { get; set; }
         public string? CountryName { get; set; }
     }
+   
 }

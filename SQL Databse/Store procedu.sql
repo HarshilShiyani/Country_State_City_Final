@@ -92,7 +92,7 @@ ORDER BY [dbo].[LOC_Country].[CountryName]
 
 -----====================COUNTRY=========================
 
-create proc PR_Country_SelectAll
+alter proc PR_Country_SelectAll
 as
 	select LOC_Country.CountryID,
 	LOC_Country.CountryName,
@@ -101,6 +101,8 @@ as
 	LOC_Country.Modified
 
 	FROM LOC_Country
+	order by LOC_Country.CountryName,LOC_Country.CountryCode
+
 
 EXEC PR_Country_SelectByPK
 
@@ -198,11 +200,11 @@ exec PR_City_SelectAll
 
 ---============   UPDATE   =============== 
  
- create proc PR_Country_Update
+ alter proc PR_Country_Update
  (
 	@CountryID int,
 	@CountryName varchar(50),
-	@cOUNTRYcODE varchar(50)
+	@CountryCode varchar(50)
  )
  as
 	
@@ -210,7 +212,8 @@ exec PR_City_SelectAll
 	update LOC_Country
 	set
 		CountryName=@CountryName,
-		CountryCode=@cOUNTRYcODE
+		CountryCode=@CountryCode,
+		Modified=GETDATE()
 	where
 		CountryID=@CountryID
  end

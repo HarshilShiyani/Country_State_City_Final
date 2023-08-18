@@ -1,0 +1,48 @@
+﻿@using System.Data
+@model Country_City_City_Final.Areas.City.Models.CityModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form method="post" asp-action="CitySave">
+    @Html.HiddenFor(x=>x.CityId)
+    <h1>@ViewBag.allcountry</h1>
+    <div class="mb-3">
+        <label class="form-label">City Name</label>
+        <input type="text" class="form-control" asp-for="CityName">
+        <span class="form-text" asp-validation-for="CityName"> </span>
+    </div>
+
+
+    <div class="mb-3">
+        <label class="form-label">Country Name</label>
+        <select id="inputCity" class="form-control" asp-for="CountryId"
+                asp-items="@(new SelectList(ViewBag.countrylist,"CountryId","CountryName"))">
+
+            <option disabled selected>Select Country</option>
+        </select>
+
+        <span asp-validation-for="CountryId" class="text-danger"></span>
+
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">City Name</label>
+        <select id="inputState" class="form-control" asp-for="StateId"
+                asp-items="@(new SelectList(ViewBag.Statelist,"StateId","StateName"))">
+
+            <option disabled selected>Select State</option>
+        </select>
+
+        <span asp-validation-for="StateId" class="text-danger"></span>
+
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">CityCode</label>
+        <input type="text" class="form-control" asp-for="CityCode">
+        <span class="form-text" asp-validation-for="CityCode"> </span>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

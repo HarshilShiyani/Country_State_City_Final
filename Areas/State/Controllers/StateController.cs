@@ -19,6 +19,8 @@ namespace Country_State_City_Final.Areas.State.Controllers
 
         public IActionResult StateAddEdit(int? StateId)
         {
+
+            FillCountryDDL();
             if (StateId != null)
             {
                 string connection = this._configuration.GetConnectionString("connectionString");
@@ -60,14 +62,10 @@ namespace Country_State_City_Final.Areas.State.Controllers
             return RedirectToAction("StateList");
         }
 
-
         public void FillCountryDDL()
         {
 
-            string str =this._configuration.GetConnectionString("connectionString");
-
-            List<LOC_CountryDropDownModel> countrylistfordropdown = new List<LOC_CountryDropDownModel>();
-
+            string str = this._configuration.GetConnectionString("connectionString");
             SqlConnection sqlConnection = new SqlConnection(str);
             sqlConnection.Open();
 
@@ -75,29 +73,23 @@ namespace Country_State_City_Final.Areas.State.Controllers
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "PR_Country_SelectAll";
 
-            SqlDataReader objSDR = cmd.ExecuteReader();
+            SqlDataReader sqlDataReader = cmd.ExecuteReader();
+            DataTable dt = new DataTable();
+            dt.Load(sqlDataReader);
 
-            if (objSDR.HasRows)
+            List<CountryDropDownModel> countrylist = new List<CountryDropDownModel>();
+            foreach (DataRow dr in dt.Rows)
             {
-                while (objSDR.Read())
-                {
-                    LOC_CountryDropDownModel country = new
-                        LOC_CountryDropDownModel()
-                    {
-                        CountryId = Convert.ToInt32(objSDR["CountryId"]),
-                        CountryName = objSDR["CountryName"].ToString()
-                    };
-                    countrylistfordropdown.Add(country);
-                }
-                objSDR.Close();
+                CountryDropDownModel tempcountry = new CountryDropDownModel();
+                tempcountry.CountryId = Convert.ToInt32(dr["CountryId"]);
+                tempcountry.CountryName = dr["CountryName"].ToString();
+                countrylist.Add(tempcountry);
             }
             sqlConnection.Close();
-            ViewBag.CountryList = countrylistfordropdown;
-
+            ViewBag.CountryList = countrylist;
         }
 
-
-        public IActionResult StateList()
+        public IActionResult StateList(string serchstring)
         {
             string connection = this._configuration.GetConnectionString("connectionString");
             SqlConnection sqlConnection = new SqlConnection(connection);

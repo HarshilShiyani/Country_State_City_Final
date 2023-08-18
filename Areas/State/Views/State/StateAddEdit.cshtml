@@ -10,18 +10,19 @@
         <input type="text" class="form-control" asp-for="StateName">
         <span class="form-text" asp-validation-for="StateName"> </span>
     </div>
+
+
     <div class="mb-3">
-        <label class="form-label">CountryId</label>
-        <input type="text" class="form-control" asp-for="CountryId">
-        <span class="form-text" asp-validation-for="CountryId"> </span>
+        <label class="form-label">Country Name</label>
+        <select id="inputState" class="form-control" asp-for="CountryId"
+                asp-items="@(new SelectList(ViewBag.countrylist,"CountryId","CountryName"))">
+
+            <option disabled selected>Select Country</option>
+        </select>
+
+        <span asp-validation-for="CountryId" class="text-danger"></span>
+
     </div>
-
-    <select id="inputState" class="form-control" asp-for="CountryId"
-            asp-items="@(new SelectList(ViewBag.CountryList,"CountryId","CountryName"))">
-
-        <option disabled selected>Select Country</option>
-    </select>
-    <span asp-validation-for="CountryId" class="text-danger"></span>
 
     <div class="mb-3">
         <label class="form-label">StateCode</label>
