@@ -7,7 +7,6 @@
 
 <form method="post" asp-action="CitySave">
     @Html.HiddenFor(x=>x.CityId)
-    <h1>@ViewBag.allcountry</h1>
     <div class="mb-3">
         <label class="form-label">City Name</label>
         <input type="text" class="form-control" asp-for="CityName">
@@ -17,7 +16,7 @@
 
     <div class="mb-3">
         <label class="form-label">Country Name</label>
-        <select id="inputCity" class="form-control" asp-for="CountryId"
+        <select id="ddlCountries" class="form-control" asp-for="CountryId"
                 asp-items="@(new SelectList(ViewBag.countrylist,"CountryId","CountryName"))">
 
             <option disabled selected>Select Country</option>
@@ -28,10 +27,9 @@
     </div>
 
     <div class="mb-3">
-        <label class="form-label">City Name</label>
-        <select id="inputState" class="form-control" asp-for="StateId"
+        <label class="form-label">state Name</label>
+        <select id="ddlStates" class="form-control" asp-for="StateId"
                 asp-items="@(new SelectList(ViewBag.Statelist,"StateId","StateName"))">
-
             <option disabled selected>Select State</option>
         </select>
 
@@ -46,3 +44,63 @@
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+@section Scripts{
+
+    <script type="text/javascript">
+        $(function () {
+            $("select").each(function () {
+                if ($(this).find("option").length <= 1) {
+                    $(this).attr("disabled", "disabled");
+                }
+            });
+
+            $("select").change(function () {
+                var value = 0;
+                if ($(this).val() != "") {
+                    value = $(this).val();
+                }
+                var id = $(this).attr("id");
+                $.ajax({
+                    type: "POST",
+                    url: "City/City/CityAddEdit",
+                    data: { value: value, type: id },
+                    success: function (response) {
+                        switch (id) {
+                            case "ddlCountries":
+                                DisableDropDown("#ddlStates");
+                                PopulateDropDown("#ddlStates", response.States);
+                                break;
+                        }
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            });
+
+            if ($("#ddlCountries").val() != "" && $("#ddlStates").val() != "") {
+                var message = "Country: " + $("#ddlCountries option:selected").text();
+                message += "\nState: " + $("#ddlStates option:selected").text();
+                alert(message);
+            }
+        });
+
+        function DisableDropDown(dropDownId) {
+            $(dropDownId).attr("disabled", "disabled");
+            $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+        }
+
+        function PopulateDropDown(dropDownId, list) {
+            if (list != null && list.length > 0) {
+                $(dropDownId).removeAttr("disabled");
+                $.each(list, function () {
+                    $(dropDownId).append($("<option></option>").val(this['Value']).html(this['Text']));
+                });
+            }
+        }
+    </script>
+}

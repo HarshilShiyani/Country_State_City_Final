@@ -53,7 +53,9 @@ namespace Country_State_City_Final.Areas.City.Controllers
                 {
                     model.CityCode = dataRow["Citycode"].ToString();
                     model.CityName = dataRow["CityName"].ToString();
-                    model.CountryId = Convert.ToInt32(dataRow["CityId"]);
+                    model.StateId = Convert.ToInt32(dataRow["StateId"]);
+                    model.CountryId = Convert.ToInt32(dataRow["CountryId"]);
+
                 }
                 return View("CityAddEdit", model);
 
@@ -91,7 +93,6 @@ namespace Country_State_City_Final.Areas.City.Controllers
 
         public void FillStateDDL()
         {
-
             string str = this._configuration.GetConnectionString("connectionString");
             SqlConnection sqlConnection = new SqlConnection(str);
             sqlConnection.Open();

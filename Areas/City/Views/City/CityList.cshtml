@@ -25,6 +25,7 @@
     <thead>
         <tr>
             <th scope="col">CityName</th>
+            <th scope="col">CityCode</th>
             <th scope="col">StateName</th>
             <th scope="col">CountryName</th>
             <th scope="col">Created</th>
@@ -46,6 +47,8 @@
             {
                 <tr>
                     <td> @dataRow["CityName"]</td>
+                    <td> @dataRow["CityCode"]</td>
+
                     <td> @dataRow["StateName"]</td>
                     <td> @dataRow["CountryName"]</td>
                     <td> @dataRow["Created"]</td>
@@ -77,5 +80,9 @@
             });
         });
     </script>
+
+
 }
+
+
 

@@ -37,6 +37,8 @@ namespace Country_City_City_Final.Areas.City.Models
     {
         public int StateId { get; set; }
         public string? StateName { get; set; }
+        public int CountryID { get; set; }
+
     }
 
 }
