@@ -3,15 +3,6 @@
 @model DataTable
 
 
-
-<select class="form-select" aria-label="Default select example">
-    <option selected>Open this select menu</option>
-    @foreach (DataRow dataRow in Model.Rows)
-    {
-        <option value="3">@dataRow["CountryName"]</option>
-    }
-</select>
-
 <a type="button" class="btn btn-success mt-5" asp-area="Country" asp-controller="Country" asp-action="CountryAddEdit">Add New Country</a>
 
 <table class="table">
