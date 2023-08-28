@@ -9,14 +9,19 @@ namespace Country_City_City_Final.Areas.City.Models
 
         [Required(ErrorMessage = ("Please Enter City Name"))]
 
+        public string? CountryName { get; set; }
+
+        public string? StateName { get; set; }
+        [Required(ErrorMessage = ("Please Select City Name"))]
+
         public string? CityName { get; set; }
 
         [Required(ErrorMessage = ("Please Select Country"))]
-        public int? CountryId { get; set; }
+        public int CountryId { get; set; }
 
         [Required(ErrorMessage = ("Please Select State"))]
 
-        public int? StateId { get; set; }
+        public int StateId { get; set; }
 
         [Required(ErrorMessage = ("Please Enter State Code"))]
 

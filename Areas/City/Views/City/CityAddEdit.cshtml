@@ -16,8 +16,8 @@
 
     <div class="mb-3">
         <label class="form-label">Country Name</label>
-        <select id="ddlCountries" class="form-control" asp-for="CountryId"
-                asp-items="@(new SelectList(ViewBag.countrylist,"CountryId","CountryName"))">
+        <select id="CountryID" class="form-control" asp-for="CountryId"
+                asp-items="@(new SelectList(ViewBag.countrylist,"CountryId","CountryName"))" onchange="fnOnStateChange();">
 
             <option disabled selected>Select Country</option>
         </select>
@@ -28,7 +28,7 @@
 
     <div class="mb-3">
         <label class="form-label">state Name</label>
-        <select id="ddlStates" class="form-control" asp-for="StateId"
+        <select id="StateID" class="form-control" asp-for="StateId"
                 asp-items="@(new SelectList(ViewBag.Statelist,"StateId","StateName"))">
             <option disabled selected>Select State</option>
         </select>
@@ -47,60 +47,49 @@
 
 @section Scripts{
 
-    <script type="text/javascript">
-        $(function () {
-            $("select").each(function () {
-                if ($(this).find("option").length <= 1) {
-                    $(this).attr("disabled", "disabled");
-                }
-            });
+    <script>
+    function fnOnStateChange() {
 
-            $("select").change(function () {
-                var value = 0;
-                if ($(this).val() != "") {
-                    value = $(this).val();
-                }
-                var id = $(this).attr("id");
-                $.ajax({
+        var CountryID = $("#CountryID").val();
+
+        if(CountryID !== "")
+        {
+            $("#StateID").empty();
+            $("#StateID").append($("<option></option>").val("").html("Select States"));
+            $.ajax(
+                {
                     type: "POST",
-                    url: "City/City/CityAddEdit",
-                    data: { value: value, type: id },
-                    success: function (response) {
-                        switch (id) {
-                            case "ddlCountries":
-                                DisableDropDown("#ddlStates");
-                                PopulateDropDown("#ddlStates", response.States);
-                                break;
-                        }
+                    contentType: "application/json; charset=utf-8",
+                    url: "@Url.Action("DropDownByCountry","City")" + "?&CountryId=" + CountryID,
+                  
+                    data: {},
+                    datatType: "json",
+                    success: function (Result) {
+                        $.each(Result,
+                            function (key,value) {
+                                $("#StateID").append($("<option></option>").val(value.stateId).html(value.stateName));
+                            }
+                        );
                     },
-                    failure: function (response) {
-                        alert(response.responseText);
-                    },
-                    error: function (response) {
-                        alert(response.responseText);
+
+                    error: function (r){
+                        alert("Error While Loading Dropdown!");
                     }
-                });
-            });
-
-            if ($("#ddlCountries").val() != "" && $("#ddlStates").val() != "") {
-                var message = "Country: " + $("#ddlCountries option:selected").text();
-                message += "\nState: " + $("#ddlStates option:selected").text();
-                alert(message);
-            }
-        });
-
-        function DisableDropDown(dropDownId) {
-            $(dropDownId).attr("disabled", "disabled");
-            $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+                }
+            );
         }
-
-        function PopulateDropDown(dropDownId, list) {
-            if (list != null && list.length > 0) {
-                $(dropDownId).removeAttr("disabled");
-                $.each(list, function () {
-                    $(dropDownId).append($("<option></option>").val(this['Value']).html(this['Text']));
-                });
-            }
+        else{
+            $("StateID").empty();
+            $("StateID").append($("<option></option>").val("").html("Select State"));
         }
-    </script>
+    }
+</script>
+
+    
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+
 }

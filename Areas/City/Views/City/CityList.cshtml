@@ -5,7 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>@ViewBag.tempstring</h1>
 <form>
     <div class="input-group">
         <span class="input-group-text" id="basic-addon1">
@@ -18,12 +17,32 @@
     </div>
 </form>
 
-<a type="button" class="btn btn-success mt-3"  asp-area="City" asp-controller="City" asp-action="CityAddEdit">Add New City</a>
+<br />
+<form>
+    <div class="mb-3">
+        <label  class="form-label">Country Name</label>
+        <input type="text" name="CountryName" class="form-control">
+    </div> <div class="mb-3">
+        <label class="form-label">State Name</label>
+        <input type="text" name="StateName" class="form-control">
+    </div> <div class="mb-3">
+        <label class="form-label">City Code</label>
+        <input type="text" name="CityCode" class="form-control">
+    </div> <div class="mb-3">
+        <label class="form-label">City Name</label>
+        <input type="text" name="CityName" class="form-control">
+    </div>
+
+    <button type="submit" class="btn btn-primary" asp-area="City" asp-controller="City" asp-action="CityFilter">Apply filter</button>
+</form>
+
+<a type="button" class="btn btn-success mt-3" asp-area="City" asp-controller="City" asp-action="CityAddEdit">Add New City</a>
 
 
 <table class="table">
     <thead>
         <tr>
+            <th scope="col">City id</th>
             <th scope="col">CityName</th>
             <th scope="col">CityCode</th>
             <th scope="col">StateName</th>
@@ -46,15 +65,15 @@
             @foreach (DataRow dataRow in Model.Rows)
             {
                 <tr>
+                    <td> @dataRow["CityId"]</td>
                     <td> @dataRow["CityName"]</td>
                     <td> @dataRow["CityCode"]</td>
-
                     <td> @dataRow["StateName"]</td>
                     <td> @dataRow["CountryName"]</td>
                     <td> @dataRow["Created"]</td>
                     <td> @dataRow["Modified"]</td>
                     <td>
-                        <a type="button" class="btn btn-danger" asp-route-CityId="@Convert.ToInt32(dataRow["CityId"])" asp-action="CityDelete">Delete</a>
+                        <a type="button" class="btn btn-danger " @* asp-route-CityId="@Convert.ToInt32(dataRow["CityId"])" *@ onclick="confirmDelete(@dataRow["CityId"])">Delete</a>
                         <a type="button" class="btn btn-info" asp-route-CityId="@Convert.ToInt32(dataRow["CityId"])" asp-action="CityAddEdit">Edit</a>
                     </td>
                 </tr>
@@ -80,6 +99,34 @@
             });
         });
     </script>
+
+    <script>
+
+        function confirmDelete(parameter) {
+            // alert(parameter);
+            $(document).ready(function () {
+                if (confirm("Are you sure you want to delete?")) {
+                    $.ajax({
+                        url: "@Url.Action("CityDelete","City")" + "?&CityId=" + parameter,
+                        type: "POST",
+                        success: function (result) {
+                            $ajax({
+                                url: "@Url.Action("CityList","City")",
+
+                            })
+                        },
+                        error: function () {
+                            // Handle errors
+                            console.log("Error calling delete action method.");
+                        }
+                    });
+                }
+            });
+        }
+        
+    </script>
+
+
 
 
 }

@@ -17,4 +17,9 @@ namespace Country_State_City_Final.Areas.Country.Models
       
 
     }
+    public class CCC
+    {
+        public static string? CountryName { get; set; }
+        public static string? CountryCode { get; set; }
+    }
 }
