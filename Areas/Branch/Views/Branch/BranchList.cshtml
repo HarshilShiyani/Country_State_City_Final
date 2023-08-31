@@ -1,0 +1,38 @@
+﻿@model DataTable
+@using System.Data
+
+<a type="button" class="btn btn-success mt-1" asp-area="Branch" asp-controller="Branch" asp-action="BranchAddEdit">Add New Branch</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Branch Name</th>
+            <th scope="col">Branch Code</th>
+            <th scope="col">Action</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model.Rows.Count <= 0)
+        {
+            <tr>
+                <td class="col text-danger text-center">Norecord</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (DataRow dataRow in Model.Rows)
+            {
+                <tr>
+                    <td>@dataRow["BranchName"]</td>
+                    <td>@dataRow["BranchCode"]</td>
+                    <td>
+                        <a type="button" class="btn btn-danger" asp-area="Branch" asp-controller="Branch" asp-action="BranchDelete" asp-route-BranchId="@Convert.ToInt32(dataRow["BranchId"])">Delete</a>
+                        <a type="button" class="btn btn-warning" asp-area="Branch" asp-controller="Branch" asp-action="BranchAddEdit" asp-route-BranchId="@Convert.ToInt32(dataRow["BranchId"])">edit</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

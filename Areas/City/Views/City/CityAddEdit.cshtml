@@ -47,13 +47,12 @@
 
 @section Scripts{
 
-    <script>
+<script>
     function fnOnStateChange() {
 
         var CountryID = $("#CountryID").val();
 
-        if(CountryID !== "")
-        {
+        if (CountryID !== "") {
             $("#StateID").empty();
             $("#StateID").append($("<option></option>").val("").html("Select States"));
             $.ajax(
@@ -61,31 +60,70 @@
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     url: "@Url.Action("DropDownByCountry","City")" + "?&CountryId=" + CountryID,
-                  
+
                     data: {},
                     datatType: "json",
                     success: function (Result) {
                         $.each(Result,
-                            function (key,value) {
+                            function (key, value) {
                                 $("#StateID").append($("<option></option>").val(value.stateId).html(value.stateName));
                             }
                         );
                     },
 
-                    error: function (r){
+                    error: function (r) {
                         alert("Error While Loading Dropdown!");
                     }
                 }
             );
         }
-        else{
+        else {
             $("StateID").empty();
             $("StateID").append($("<option></option>").val("").html("Select State"));
         }
     }
 </script>
+<script>
+    function AddCity(p1, p2) {
+        $(document).ready(function () {
+            var jsonData = JSON.stringify(@Model);
+            $.ajax({
+                url: "@Url.Action("CitySave", "City")",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: { cityModelJson: jsonData }, // Pass the JSON string as a parameter
+                success: function (result) {
+                    // Show success message
+                    alert("added");
 
-    
+                },
+                error: function () {
+                    // Show error message
+                    confirmError();
+                }
+            });
+        }
+                        }
+
+    function confirmAdd() {
+        Swal.fire({
+            title: "Data Added",
+            text: "The data has been added successfully.",
+            icon: "success"
+        }).then(() => {
+            // Redirect or perform any other action after successful addition
+            window.location.href = "@Url.Action("CityList", "City")";
+        });
+    }
+
+    function confirmError() {
+        Swal.fire({
+            title: "Error",
+            text: "An error occurred while adding the data.",
+            icon: "error"
+        });
+    }
+</script>
 
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

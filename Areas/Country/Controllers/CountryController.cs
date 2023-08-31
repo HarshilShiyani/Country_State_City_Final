@@ -126,7 +126,7 @@ namespace Country_State_City_Final.Areas.Country.Controllers
             return RedirectToAction("CountryList");
 
         }
-        public IActionResult FilterCountry(CCC ccc)
+        public IActionResult FilterCountry()
         {
             string connection = this._configuration.GetConnectionString("connectionString");
             SqlConnection sqlConnection = new SqlConnection(connection);
