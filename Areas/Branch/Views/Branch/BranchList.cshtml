@@ -6,10 +6,11 @@
 <table class="table">
     <thead>
         <tr>
+            <th scope="col">Branch id</th>
             <th scope="col">Branch Name</th>
             <th scope="col">Branch Code</th>
             <th scope="col">Action</th>
-            
+
         </tr>
     </thead>
     <tbody>
@@ -25,6 +26,7 @@
             @foreach (DataRow dataRow in Model.Rows)
             {
                 <tr>
+                    <td>@dataRow["BranchId"]</td>
                     <td>@dataRow["BranchName"]</td>
                     <td>@dataRow["BranchCode"]</td>
                     <td>
