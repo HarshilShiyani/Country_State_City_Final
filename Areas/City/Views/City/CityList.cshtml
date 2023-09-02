@@ -39,7 +39,7 @@
         <button type="submit" class="btn btn-primary col-1 " asp-area="City" asp-controller="City" asp-action="CityFilter">Apply filter</button>
 
     </div>
-    
+
 
 </form>
 
@@ -49,14 +49,12 @@
 <table class="table">
     <thead>
         <tr>
-            <th scope="col">City id</th>
-            <th scope="col">CityName</th>
-            <th scope="col">CityCode</th>
-            <th scope="col">StateName</th>
-            <th scope="col">CountryName</th>
-            <th scope="col">Created</th>
-            <th scope="col">Modified</th>
-            <th scope="col">Action</th>
+            <th class="col">City id</th>
+            <th class="col">CityName</th>
+            <th class="col">CityCode</th>
+            <th class="col">StateName</th>
+            <th class="col">CountryName</th>
+            <th class="col">Action</th>
         </tr>
     </thead>
     <tbody id="myTable">
@@ -77,8 +75,6 @@
                     <td> @dataRow["CityCode"]</td>
                     <td> @dataRow["StateName"]</td>
                     <td> @dataRow["CountryName"]</td>
-                    <td> @dataRow["Created"]</td>
-                    <td> @dataRow["Modified"]</td>
                     <td>
                         <a type="button" class="btn btn-danger " @* asp-route-CityId="@Convert.ToInt32(dataRow["CityId"])" *@ onclick="confirmDelete(@dataRow["CityId"])">Delete</a>
                         <a type="button" class="btn btn-info" asp-route-CityId="@Convert.ToInt32(dataRow["CityId"])" asp-action="CityAddEdit">Edit</a>
@@ -125,46 +121,46 @@
     </script> *@
     <script>
         function confirmDelete(parameter) {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // User confirmed, proceed with deletion
-                $.ajax({
-                    url: "@Url.Action("CityDelete", "City")" + "?&CityId=" + parameter,
-                    type: "POST",
-                    success: function (result) {
-                        // Use SweetAlert to show a success message
-                        Swal.fire({
-                            title: "Deleted!",
-                            text: "The city has been deleted.",
-                            icon: "success",
-                        }).then(() => {
-                            // Redirect to the CityList action
-                            window.location.href = "@Url.Action("CityList", "City")";
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // User confirmed, proceed with deletion
+                    $.ajax({
+                        url: "@Url.Action("CityDelete", "City")" + "?&CityId=" + parameter,
+                        type: "POST",
+                        success: function (result) {
+                            // Use SweetAlert to show a success message
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "The city has been deleted.",
+                                icon: "success",
+                            }).then(() => {
+                                // Redirect to the CityList action
+                                window.location.href = "@Url.Action("CityList", "City")";
+                            });
+                        },
+                        error: function () {
+                            // Use SweetAlert to show an error message
+                            Swal.fire({
+                                title: "Error",
+                                text: "An error occurred while deleting the city.",
+                                icon: "error",
+                            });
+                        },
                     });
-                },
-                error: function () {
-                    // Use SweetAlert to show an error message
-                    Swal.fire({
-                        title: "Error",
-                        text: "An error occurred while deleting the city.",
-                        icon: "error",
-                    });
-                },
+                }
             });
         }
-    });
-}
     </script>
 
-    
+
 
 }
 

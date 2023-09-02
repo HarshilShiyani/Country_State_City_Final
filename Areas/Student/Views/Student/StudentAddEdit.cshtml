@@ -39,20 +39,32 @@
 
     <div class="mb-3">
         <label class="form-label">BirthDate</label>
-        <input type="date" class="form-control" asp-for="BirthDate" />
+        <input type="date" id="datepicker" class="form-control" asp-for="BirthDate" />
         <span asp-validation-for="BirthDate" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label class="form-label">BranchID</label>
-        <input type="text" class="form-control"  asp-for="BranchID" />
-        <span asp-validation-for="BranchID" class="text-danger"></span>
+        <label class="form-label">City Name</label>
+        <select id="inputState" class="form-control" asp-for="CityID"
+                asp-items="@(new SelectList(ViewBag.citylist,"CityId","CityName"))">
+
+            <option disabled selected>Select City</option>
+        </select>
+
+        <span asp-validation-for="CityID" class="text-danger"></span>
+
     </div>
 
     <div class="mb-3">
-        <label class="form-label">CityID</label>
-        <input type="text" class="form-control" asp-for="CityID" />
-        <span asp-validation-for="CityID" class="text-danger"></span>
+        <label class="form-label">Branch Name</label>
+        <select id="inputState" class="form-control" asp-for="BranchID"
+                asp-items="@(new SelectList(ViewBag.branchlist,"BranchId","BranchName"))">
+
+            <option disabled selected>Select Branch</option>
+        </select>
+
+        <span asp-validation-for="BranchID" class="text-danger"></span>
+
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>

@@ -3,7 +3,7 @@
 @model DataTable
 
 
-<a type="button" class="btn btn-success mt-5" asp-area="Country" asp-controller="Country" asp-action="CountryAddEdit">Add New Country</a>
+<a type="button" class="btn btn-success mt-1" asp-area="Country" asp-controller="Country" asp-action="CountryAddEdit">Add New Country</a>
 
 <table class="table">
     <thead>
@@ -32,7 +32,7 @@
                     
                     <td>
                         <a type="button" class="btn btn-danger" asp-action="CountryDelete" asp-route-CountryId="@Convert.ToInt32(dataRow["CountryID"])" >Delete</a>
-                        <a type="button" class="btn btn-warning" asp-area="Country" asp-controller="Country" asp-action="CountryAddEdit" asp-route-CountryId="@Convert.ToInt32(dataRow["CountryID"])" >edit</a>
+                        <a type="button" class="btn btn-info" asp-area="Country" asp-controller="Country" asp-action="CountryAddEdit" asp-route-CountryId="@Convert.ToInt32(dataRow["CountryID"])" >edit</a>
                     </td>
                 </tr>
             }

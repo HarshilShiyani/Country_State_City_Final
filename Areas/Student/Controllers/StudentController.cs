@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Diagnostics;
 using Country_State_City_Final.Areas.Student.Models;
+using Country_State_City_Final.Areas.Country.Models;
 
 namespace Country_State_City_Final.Areas.Student.Controllers
 {
@@ -33,6 +34,8 @@ namespace Country_State_City_Final.Areas.Student.Controllers
 
         public IActionResult StudentAddEdit(int? StudentID)
         {
+            FillCityDDL();
+            FillBranchDDL();
             if (StudentID != null)
             {
                 string connectionstr = this._configuration.GetConnectionString("connectionString");
@@ -79,7 +82,7 @@ namespace Country_State_City_Final.Areas.Student.Controllers
             }
             else
             {
-                ObjCmd.CommandText = "PR_Student_UpdateByPK";
+                ObjCmd.CommandText = "PR_Student_Update";
                 ObjCmd.Parameters.AddWithValue("StudentID", model.StudentId);
 
 
@@ -108,6 +111,60 @@ namespace Country_State_City_Final.Areas.Student.Controllers
             ObjCmd.ExecuteNonQuery();
             return RedirectToAction("StudentList");
         }
+
+        public void FillCityDDL()
+        {
+
+            string str = this._configuration.GetConnectionString("connectionString");
+            SqlConnection sqlConnection = new SqlConnection(str);
+            sqlConnection.Open();
+
+            SqlCommand cmd = sqlConnection.CreateCommand();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "PR_City_CityDropdown";
+
+            SqlDataReader sqlDataReader = cmd.ExecuteReader();
+            DataTable dt = new DataTable();
+            dt.Load(sqlDataReader);
+
+            List<CityDropDown> citylist = new List<CityDropDown>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                CityDropDown tempcountry = new CityDropDown();
+                tempcountry.CityId = Convert.ToInt32(dr["CityID"]);
+                tempcountry.CityName = dr["CityName"].ToString();
+                citylist.Add(tempcountry);
+            }
+            sqlConnection.Close();
+            ViewBag.citylist = citylist;
+        }
+        public void FillBranchDDL()
+        {
+
+            string str = this._configuration.GetConnectionString("connectionString");
+            SqlConnection sqlConnection = new SqlConnection(str);
+            sqlConnection.Open();
+
+            SqlCommand cmd = sqlConnection.CreateCommand();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "PR_MST_Branch_MST_BranchDropdown";
+
+            SqlDataReader sqlDataReader = cmd.ExecuteReader();
+            DataTable dt = new DataTable();
+            dt.Load(sqlDataReader);
+
+            List<BranchDropDown> branchlist = new List<BranchDropDown>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                BranchDropDown tempbranch = new BranchDropDown();
+                tempbranch.BranchId = Convert.ToInt32(dr["BranchID"]);
+                tempbranch.BranchName = dr["BranchName"].ToString();
+                branchlist.Add(tempbranch);
+            }
+            sqlConnection.Close();
+            ViewBag.branchlist = branchlist;
+        }
+
 
     }
 }
