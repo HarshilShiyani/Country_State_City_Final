@@ -1,10 +1,10 @@
-﻿using Country_State_City_Final.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
 using System.Data;
 using System.Diagnostics;
+using System.Net.Mail;
+using System.Net;
 using Country_State_City_Final.Areas.Student.Models;
-using Country_State_City_Final.Areas.Country.Models;
 
 namespace Country_State_City_Final.Areas.Student.Controllers
 {
@@ -76,6 +76,11 @@ namespace Country_State_City_Final.Areas.Student.Controllers
             SqlCommand ObjCmd = sqlConnection.CreateCommand();
             ObjCmd.CommandType = CommandType.StoredProcedure;
             if (model.StudentId == 0)
+            {
+                ObjCmd.CommandText = "PR_Student_Insert";
+
+            }
+            else if(model.StudentId == -1)
             {
                 ObjCmd.CommandText = "PR_Student_Insert";
 
@@ -163,6 +168,40 @@ namespace Country_State_City_Final.Areas.Student.Controllers
             }
             sqlConnection.Close();
             ViewBag.branchlist = branchlist;
+        }
+
+        [HttpPost]
+        public IActionResult SendMail(EmailModel emailModel)
+        {
+            using (MailMessage mm = new MailMessage(emailModel.Email, emailModel.To))
+            {
+                mm.Subject = emailModel.Subject;
+                mm.Body = emailModel.Body;
+                if (emailModel.Attachment.Length > 0)
+                {
+                    string fileName = Path.GetFileName(emailModel.Attachment.FileName);
+                    mm.Attachments.Add(new Attachment(emailModel.Attachment.OpenReadStream(), fileName));
+                }
+                mm.IsBodyHtml = true;
+                using (SmtpClient smtp = new SmtpClient())
+                {
+                    smtp.Host = "smtp.gmail.com";
+                    smtp.EnableSsl = true;
+                    NetworkCredential NetworkCred = new NetworkCredential(emailModel.Email, emailModel.Password);
+                    smtp.UseDefaultCredentials = false;
+                    smtp.Credentials = NetworkCred;
+                    smtp.Port = 587;
+                    smtp.Send(mm);
+                   ViewBag.mail = "Success";
+                }
+            }
+
+            return RedirectToAction("GmailFormpage", "Student", new { area = "Student" });
+        }
+
+        public IActionResult GmailFormpage()
+        { 
+            return View("GmailFormpage"); 
         }
 
 

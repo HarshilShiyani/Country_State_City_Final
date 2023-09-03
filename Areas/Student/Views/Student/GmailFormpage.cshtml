@@ -1,0 +1,108 @@
+﻿@model Country_State_City_Final.Areas.Student.Models.EmailModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <style type="text/css">
+        body {
+            font-family: Arial;
+            font-size: 10pt;
+        }
+
+        table th, table td {
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <form asp-action="SendMail" asp-controller="Student" asp-area="Student" method="post" enctype="multipart/form-data">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2">
+                        <label for="To">To:</label>
+                    </div>
+                    <div class="col-md-10">
+                        <input type="text"  class="form-control" asp-for="To" />
+                        <span asp-validation-for="To"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label for="Subject">Subject:</label>
+                    </div>
+                    <div class="col-md-10">
+                        <input type="text"  class="form-control" asp-for="Subject" />
+                        <span asp-validation-for="Subject"></span>
+
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label for="Body">Body:</label>
+                    </div>
+                    <div class="col-md-10">
+                        <textarea asp-for="Body"  class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="Body"></span>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label for="Attachment">File Attachment:</label>
+                    </div>
+                    <div class="col-md-10">
+                        <input type="file" asp-for="Attachment"  class="form-control" />
+                        <span asp-validation-for="Attachment"></span>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label for="Email">Gmail Email:</label>
+                    </div>
+                    <div class="col-md-10">
+                        <input type="text" asp-for="Email"  class="form-control" />
+                        <span asp-validation-for="Email"></span>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label for="Password">Gmail Password:</label>
+                    </div>
+                    <div class="col-md-10">
+                        <input type="text" asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password"></span>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-10">
+                        <input type="submit" value="Send" class="btn btn-primary" />
+
+                    </div>
+                </div>
+            </div>
+        </form>
+        <br />
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <span style="color: green">@ViewBag.mail</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -12,7 +12,7 @@ namespace Country_State_City_Final.Areas.Student.Models
         [RegularExpression("^[0-9]{10}$")]
         public string? MobileNoStudent { get; set; }
         [Required]
-        [RegularExpression("[a-z0-9]+@[a-z]+\\.[a-z]{2,3}",ErrorMessage ="Please enter Valid Email Address")]
+        [RegularExpression("[a-z0-9]+@[a-z]+\\.[a-z]{2,3}", ErrorMessage = "Please enter Valid Email Address")]
         public string? Email { get; set; }
         [Required]
         [StringLength(10)]
@@ -33,12 +33,27 @@ namespace Country_State_City_Final.Areas.Student.Models
     }
     public class CityDropDown
     {
-        public int  CityId { get; set; }
-        public string? CityName { get; set; } 
+        public int CityId { get; set; }
+        public string? CityName { get; set; }
     }
     public class BranchDropDown
     {
         public int BranchId { get; set; }
         public string? BranchName { get; set; }
+    }
+    public class EmailModel
+    {
+        [Required]
+        public string? To { get; set; }
+        [Required]
+        public string? Subject { get; set; }
+        [Required]
+        public string? Body { get; set; }
+        [Required]
+        public IFormFile? Attachment { get; set; }
+        [Required]
+        public string? Email { get; set; }
+        [Required]
+        public string? Password { get; set; }
     }
 }
