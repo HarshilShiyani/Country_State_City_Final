@@ -1,4 +1,4 @@
-﻿@{
+﻿﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -23,6 +23,8 @@
             <th class="col">BirthDate</th>
             <th class="col">BranchName</th>
             <th class="col">CityName</th>
+            <th class="col">Gender</th>
+
             <th class="col">Action</th>
 
 
@@ -34,19 +36,18 @@
         {
             <tr>
                 <td>@dr["StudentName"]</td>
-                <td>@dr["MobileNoStudent"]</td>
+                <td><a href="tel:" @dr["MobileNoStudent"]>@dr["MobileNoStudent"]</a></td>
                 <td>@dr["Email"]</td>
-                <td>@dr["MobileNoFather"]</td>
+                <td><a href="tel:" @dr["MobileNoFather"]>@dr["MobileNoFather"]</a></td>
                 <td>@dr["Address"]</td>
-
                 <td>@Convert.ToDateTime(dr["BirthDate"].ToString())</td>
                 <td>@dr["BranchName"]</td>
                 <td>@dr["CityName"]</td>
+                <td>@dr["gender"]</td>
+
                 <td>
                     <a type="button" class="btn btn-danger" asp-area="Student" asp-controller="Student" asp-action="StudentDelete" asp-route-StudentId="@Convert.ToInt32(dr["StudentId"])">Delete</a>
                     <a type="button" class="btn btn-warning" asp-area="Student" asp-controller="Student" asp-action="StudentAddEdit" asp-route-StudentId="@Convert.ToInt32(dr["StudentId"])">edit</a>
-                    <a type="button" class="btn btn-info" asp-area="Student" asp-controller="Student" asp-action="StudentAddEdit" asp-route-StudentId="@Convert.ToInt32(dr["StudentId"])">Duplicate</a>
-
                 </td>
 
             </tr>

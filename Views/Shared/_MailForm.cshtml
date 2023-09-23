@@ -1,0 +1,82 @@
+﻿@model Country_State_City_Final.Areas.Student.Models.EmailModel
+
+
+@if (@TempData["mailmessege"] != null)
+{
+    <div class="d-flex justify-content-center align-items-center mb-3">
+        <div class="toast align-items-center fade show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body text-success $green-900">
+                    @TempData["mailmessege"],@TempData["To"]
+                </div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+}
+
+<form asp-action="SendMail" asp-controller="Student" asp-area="Student" method="post" enctype="multipart/form-data">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <label for="To">To:</label>
+            </div>
+            <div class="col-md-10">
+                <input type="text" class="form-control" asp-for="To" value="harshilshiyani5@gmail.com" />
+                <span asp-validation-for="To"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label for="Subject">Subject:</label>
+            </div>
+            <div class="col-md-10">
+                <input type="text" class="form-control" asp-for="Subject" value="Asp.net core mvc mail demo" />
+                <span asp-validation-for="Subject"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label for="Body">Body:</label>
+            </div>
+            <div class="col-md-10">
+                <textarea asp-for="Body" class="form-control" rows="3"> demo asp.et</textarea>
+                <span asp-validation-for="Body"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label for="Attachment">File Attachment:</label>
+            </div>
+            <div class="col-md-10">
+                <input type="file" asp-for="Attachment" class="form-control" />
+                <span asp-validation-for="Attachment"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label for="Email">Gmail Email:</label>
+            </div>
+            <div class="col-md-10">
+                <input type="text" asp-for="Email" value="harshilshiyani5@gmail.com" class="form-control" />
+                <span asp-validation-for="Email"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label for="Password">Gmail Password:</label>
+            </div>
+            <div class="col-md-10">
+                <input type="password" asp-for="Password" value="rrxoqekpraeztcncrr" class="form-control" />
+                <span asp-validation-for="Password"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-10">
+                <input type="submit" value="Send" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+<br />

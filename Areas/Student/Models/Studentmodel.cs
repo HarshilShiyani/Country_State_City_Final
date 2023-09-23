@@ -5,6 +5,8 @@ namespace Country_State_City_Final.Areas.Student.Models
     public class Studentmodel
     {
         public int StudentId { get; set; }
+        [Required(ErrorMessage ="Please select your gender")]
+        public int Gender { get; set; }
 
         [Required]
         public string? StudentName { get; set; }

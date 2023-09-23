@@ -1,9 +1,7 @@
 ﻿using Country_State_City_Final.Areas.Branch.Models;
-using Country_State_City_Final.Areas.Country.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Data.SqlClient;
-using System.Reflection;
 
 namespace Country_State_City_Final.Areas.Branch.Controllers
 {

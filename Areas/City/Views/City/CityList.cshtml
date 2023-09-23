@@ -18,6 +18,8 @@
 </form>
 
 <br />
+<a type="button" class="btn btn-success mt-3" asp-area="City" asp-controller="City" asp-action="CityAddEdit">Add New City</a>
+
 <form>
     <div class="row">
         <div class="mb-3 col-6">
@@ -40,10 +42,7 @@
 
     </div>
 
-
 </form>
-
-<a type="button" class="btn btn-success mt-3" asp-area="City" asp-controller="City" asp-action="CityAddEdit">Add New City</a>
 
 
 <table class="table">
@@ -99,26 +98,6 @@
         });
     </script>
 
-    @* <script>
-
-        function confirmDelete(parameter) {
-            $(document).ready(function () {
-                if (confirm("Are you sure you want to delete?")) {
-                    $.ajax({
-                        url: "@Url.Action("CityDelete","City")" + "?&CityId=" + parameter,
-                        type: "POST",
-                        success: function (result) {
-                            window.location.href = "@Url.Action("CityList","City")"
-                        },
-                        error: function () {
-                            console.log("Error calling delete action method.");
-                        }
-                    });
-                }
-            });
-        }
-
-    </script> *@
     <script>
         function confirmDelete(parameter) {
             Swal.fire({

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
 using System.Data;
-using System.Diagnostics;
 using System.Net.Mail;
 using System.Net;
 using Country_State_City_Final.Areas.Student.Models;
@@ -67,6 +66,8 @@ namespace Country_State_City_Final.Areas.Student.Controllers
            
             return View("StudentAddEdit");
         }
+
+        #region StudentSave
         public IActionResult StudentSave(Studentmodel model)
         {
             string connectionstr = this._configuration.GetConnectionString("connectionString");
@@ -76,11 +77,6 @@ namespace Country_State_City_Final.Areas.Student.Controllers
             SqlCommand ObjCmd = sqlConnection.CreateCommand();
             ObjCmd.CommandType = CommandType.StoredProcedure;
             if (model.StudentId == 0)
-            {
-                ObjCmd.CommandText = "PR_Student_Insert";
-
-            }
-            else if(model.StudentId == -1)
             {
                 ObjCmd.CommandText = "PR_Student_Insert";
 
@@ -100,10 +96,20 @@ namespace Country_State_City_Final.Areas.Student.Controllers
             ObjCmd.Parameters.AddWithValue("BirthDate", model.BirthDate);
             ObjCmd.Parameters.AddWithValue("BranchID", model.BranchID);
             ObjCmd.Parameters.AddWithValue("CityID", model.CityID);
-            ObjCmd.ExecuteNonQuery();
+            ObjCmd.Parameters.AddWithValue("@gender", model.Gender);
 
+            ObjCmd.ExecuteNonQuery();
+            if (Convert.ToBoolean( ObjCmd.ExecuteNonQuery()) && model.StudentId == 0)
+            {
+                TempData["messege"] = "Succesfully inseted";
+            }
+            else if (Convert.ToBoolean(ObjCmd.ExecuteNonQuery()) && model.StudentId !=0)
+            {
+                TempData["messege"] = "Succesfully updaed";
+            }
             return RedirectToAction("StudentList");
         }
+        #endregion
         public IActionResult StudentDelete(int StudentId)
         {
             string connectionstr = this._configuration.GetConnectionString("connectionString");
@@ -177,7 +183,7 @@ namespace Country_State_City_Final.Areas.Student.Controllers
             {
                 mm.Subject = emailModel.Subject;
                 mm.Body = emailModel.Body;
-                if (emailModel.Attachment.Length > 0)
+                if (emailModel.Attachment.Length > -1)
                 {
                     string fileName = Path.GetFileName(emailModel.Attachment.FileName);
                     mm.Attachments.Add(new Attachment(emailModel.Attachment.OpenReadStream(), fileName));
@@ -192,7 +198,8 @@ namespace Country_State_City_Final.Areas.Student.Controllers
                     smtp.Credentials = NetworkCred;
                     smtp.Port = 587;
                     smtp.Send(mm);
-                   ViewBag.mail = "Success";
+                    TempData["mailmessege"] = "Successfully mail sended to ";
+                    @TempData["To"]=emailModel.To;  
                 }
             }
 
@@ -201,7 +208,7 @@ namespace Country_State_City_Final.Areas.Student.Controllers
 
         public IActionResult GmailFormpage()
         { 
-            return View("GmailFormpage"); 
+            return View(); 
         }
 
 

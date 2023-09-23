@@ -1,4 +1,5 @@
 ﻿using Country_State_City_Final.Areas.Country.Models;
+using MetronicAddressBook.BAL;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Data;
@@ -6,6 +7,7 @@ using System.Data.SqlClient;
 
 namespace Country_State_City_Final.Areas.Country.Controllers
 {
+    [CheckAccess]
     [Area("Country")]
     [Route("Country/[controller]/[action]")]
     public class CountryController : Controller
@@ -88,7 +90,7 @@ namespace Country_State_City_Final.Areas.Country.Controllers
 
             SqlCommand cmd = sqlConnection.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
-
+            
 
             
            if (Model.CountryID == 0)

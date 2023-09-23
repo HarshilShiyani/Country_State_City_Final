@@ -14,7 +14,7 @@ namespace Country_State_City_Final.Areas.Country.Models
         public DateTime Created { get; set;}  
         public DateTime Modified { get; set;}
 
-      
+
 
     }
     public class CCC
