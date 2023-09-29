@@ -38,12 +38,12 @@
                                     <p class="text-center small">Enter your personal details to create account</p>
                                 </div>
 
-                                <form class="row g-3 needs-validation"  >
+                                <form class="row g-3 needs-validation" asp-controller="Home" asp-action="SaveUser" method="post">
 
 
                                     <div class="col-12">
                                         <label class="form-label">Your Email</label>
-                                        <input type="email" class="form-control" id="yourEmail" asp-for="email">
+                                        <input type="text" class="form-control" id="yourEmail" asp-for="email">
                                         <span asp-validation-for="email"></span>
 
 
@@ -66,27 +66,27 @@
 
 
 
-                                    <div class="col-12">
+                                    @* <div class="col-12">
                                         <label class="form-label">Password</label>
                                         <input type="password" class="form-control" id="yourPassword" asp-for="password">
                                         <span asp-validation-for="password"></span>
-                                    </div>
+                                    </div> *@
 
                                     <div class="col-12">
                                         <div class="form-check">
-                                            <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
+                                            <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" >
                                             <label class="form-check-label" for="acceptTerms">I agree and accept the <a href="#">terms and conditions</a></label>
                                             <div class="invalid-feedback">You must agree before submitting.</div>
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <button class="btn btn-primary w-100" type="submit" asp-controller="hOME" asp-action="SaveUser">Create Account</button>
+                                        <button class="btn btn-primary w-100" type="submit" >Create Account</button>
                                     </div>
-                                    <div class="col-12">
-                                        <p class="small mb-0">Already have an account? <a asp-action="Index">Log in</a></p>
-                                    </div>
+                                    
                                 </form>
-
+                                <div class="col-12">
+                                    <p class="small mb-0">Already have an account? <a asp-action="Index">Log in</a></p>
+                                </div>
                             </div>
                         </div>
 

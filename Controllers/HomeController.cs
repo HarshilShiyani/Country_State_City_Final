@@ -4,6 +4,10 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Data;
 using MetronicAddressBook.BAL;
+using Country_State_City_Final.DAL;
+using Country_State_City_Final.Areas.Student.Models;
+using System.Net.Mail;
+using System.Net;
 
 namespace Country_State_City_Final.Controllers
 {
@@ -81,6 +85,10 @@ namespace Country_State_City_Final.Controllers
             return View();
         }
 
+        public IActionResult UserProfile()
+        {
+            return View();
+        }
         public IActionResult SaveUser(usermodel usermodel)
         {
             string conn = this._configuration.GetConnectionString("connectionString");
@@ -97,8 +105,23 @@ namespace Country_State_City_Final.Controllers
             if (Convert.ToBoolean(sqlCommand.ExecuteNonQuery()))
             {
                 TempData["IsUserAdded"] = "User Added Succesfully";
+                using (MailMessage mm = new MailMessage("harshilshiyani5@gmail.com", usermodel.email.ToString()))
+                {
+                    mm.Subject = "Succesfully Ragisterd ";
+                    mm.Body = "your username is "+usermodel.email.ToString()+" & Password is "+usermodel.password.ToString();
+                    mm.IsBodyHtml = true;
+                    using (SmtpClient smtp = new SmtpClient())
+                    {
+                        smtp.Host = "smtp.gmail.com";
+                        smtp.EnableSsl = true;
+                        NetworkCredential NetworkCred = new NetworkCredential("harshilshiyani5@gmail.com", "rxoqekpraeztcncr");
+                        smtp.UseDefaultCredentials = false;
+                        smtp.Credentials = NetworkCred;
+                        smtp.Port = 587;
+                        smtp.Send(mm);
+                    }
+                }
             }
-
 
             sqlConnection.Close();
 
