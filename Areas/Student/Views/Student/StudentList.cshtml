@@ -4,56 +4,65 @@
 
 @using System.Data;
 @model DataTable;
+<h5 class="text-success text-center">@TempData["messege"]</h5>
 
-<div>
-    <a class="btn btn-success btn-add" asp-area="Student" asp-controller="Student" asp-action="StudentAddEdit">Add</a>
-    <a class="btn btn-success btn-add" asp-area="Student" asp-controller="Student" asp-action="GmailFormpage">Form</a>
+<div class="card">
+    <div class="card-header d-flex justify-content-between">
+        <h3>Student List</h3>
+        <div>
+            <a class="btn btn-success btn-add" asp-area="Student" asp-controller="Student" asp-action="StudentAddEdit">Add New Student</a>
+        </div>
+    </div>
+    <div class="card-body">
 
+        <div class="table-responsive">
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="col">Student Name</th>
+                        <th class="col">MobileNoStudent</th>
+                        <th class="col">Email</th>
+                        <th class="col">MobileNoFather</th>
+                        <th class="col">Address</th>
+                        <th class="col">BirthDate</th>
+                        <th class="col">BranchName</th>
+                        <th class="col">CityName</th>
+                        <th class="col">Gender</th>
+
+                        <th class="col">Action</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (DataRow dr in Model.Rows)
+                    {
+                        <tr>
+                            <td>@dr["StudentName"]</td>
+                            <td><a href="tel:" @dr["MobileNoStudent"]>@dr["MobileNoStudent"]</a></td>
+                            <td>@dr["Email"]</td>
+                            <td><a href="tel:" @dr["MobileNoFather"]>@dr["MobileNoFather"]</a></td>
+                            <td>@dr["Address"]</td>
+                            <td>@Convert.ToDateTime(dr["BirthDate"].ToString())</td>
+                            <td>@dr["BranchName"]</td>
+                            <td>@dr["CityName"]</td>
+                            <td>@dr["gender"]</td>
+
+                            <td>
+                                <a type="button" class="btn btn-danger" asp-area="Student" asp-controller="Student" asp-action="StudentDelete" asp-route-StudentId="@Convert.ToInt32(dr["StudentId"])">Delete</a>
+                                <a type="button" class="btn btn-warning" asp-area="Student" asp-controller="Student" asp-action="StudentAddEdit" asp-route-StudentId="@Convert.ToInt32(dr["StudentId"])">edit</a>
+                            </td>
+
+                        </tr>
+                    }
+
+
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
 </div>
-<h1>Student List</h1>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th class="col">Student Name</th>
-            <th class="col">MobileNoStudent</th>
-            <th class="col">Email</th>
-            <th class="col">MobileNoFather</th>
-            <th class="col">Address</th>
-            <th class="col">BirthDate</th>
-            <th class="col">BranchName</th>
-            <th class="col">CityName</th>
-            <th class="col">Gender</th>
-
-            <th class="col">Action</th>
-
-
-        </tr>
-    </thead>
-    <tbody>
-
-        @foreach (DataRow dr in Model.Rows)
-        {
-            <tr>
-                <td>@dr["StudentName"]</td>
-                <td><a href="tel:" @dr["MobileNoStudent"]>@dr["MobileNoStudent"]</a></td>
-                <td>@dr["Email"]</td>
-                <td><a href="tel:" @dr["MobileNoFather"]>@dr["MobileNoFather"]</a></td>
-                <td>@dr["Address"]</td>
-                <td>@Convert.ToDateTime(dr["BirthDate"].ToString())</td>
-                <td>@dr["BranchName"]</td>
-                <td>@dr["CityName"]</td>
-                <td>@dr["gender"]</td>
-
-                <td>
-                    <a type="button" class="btn btn-danger" asp-area="Student" asp-controller="Student" asp-action="StudentDelete" asp-route-StudentId="@Convert.ToInt32(dr["StudentId"])">Delete</a>
-                    <a type="button" class="btn btn-warning" asp-area="Student" asp-controller="Student" asp-action="StudentAddEdit" asp-route-StudentId="@Convert.ToInt32(dr["StudentId"])">edit</a>
-                </td>
-
-            </tr>
-        }
-
-
-
-    </tbody>
-</table>

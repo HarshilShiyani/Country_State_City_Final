@@ -13,13 +13,13 @@ namespace Country_State_City_Final.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly IConfiguration _configuration;
-        public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
+        public HomeController(IConfiguration configuration)
         {
-            _logger = logger;
             this._configuration = configuration;
         }
+
+        #region Login
         public IActionResult Login(usermodel usermodel)
         {
             string connstr = this._configuration.GetConnectionString("connectionString");
@@ -75,20 +75,50 @@ namespace Country_State_City_Final.Controllers
             return RedirectToAction("Index");
         }
 
+        #endregion
+
+        #region Logout
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
             return RedirectToAction("Index");
         }
+
+        #endregion
+
+        #region ForgorPassword
+        public IActionResult ForgorPassword()
+        {
+            return View();
+        }
+
+        #endregion
+
+        #region Index
         public IActionResult Index()
         {
             return View();
         }
 
+        #endregion
+
+        #region UserProfile
         public IActionResult UserProfile()
         {
             return View();
         }
+
+        #endregion
+
+        #region SendMail
+        public void SendMail()
+        {
+
+        }
+
+        #endregion
+
+        #region SaveUser
         public IActionResult SaveUser(usermodel usermodel)
         {
             string conn = this._configuration.GetConnectionString("connectionString");
@@ -108,7 +138,7 @@ namespace Country_State_City_Final.Controllers
                 using (MailMessage mm = new MailMessage("harshilshiyani5@gmail.com", usermodel.email.ToString()))
                 {
                     mm.Subject = "Succesfully Ragisterd ";
-                    mm.Body = "your username is "+usermodel.email.ToString()+" & Password is "+usermodel.password.ToString();
+                    mm.Body = "your username is " + usermodel.email.ToString() + " & Password is " + usermodel.password.ToString();
                     mm.IsBodyHtml = true;
                     using (SmtpClient smtp = new SmtpClient())
                     {
@@ -128,20 +158,32 @@ namespace Country_State_City_Final.Controllers
             return RedirectToAction("SignUp");
         }
 
+        #endregion
+
+        #region HomePage
         [CheckAccess]
         public IActionResult HomePage()
         {
             return View("HomePage");
         }
+        #endregion
+
+        #region SignUp
         public IActionResult SignUp()
         {
             return View("SignUp");
         }
 
+        #endregion
+
+        #region Error
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        #endregion
+
+
     }
 }

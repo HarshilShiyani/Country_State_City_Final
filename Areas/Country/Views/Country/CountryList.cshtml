@@ -1,41 +1,86 @@
 ﻿@using System.Data
 @using Country_State_City_Final.Areas.Country.Models
 @model DataTable
+@if (@TempData["countryaddeditmessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle me-1"></i>
+        @TempData["countryaddeditmessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 
+<form>
+    <div class="input-group mb-3 mt-3">
+        <span class="input-group-text" id="basic-addon1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+            </svg>
+        </span>
 
-<a type="button" class="btn btn-success mt-1" asp-area="Country" asp-controller="Country" asp-action="CountryAddEdit">Add New Country</a>
+        <input type="text" class="form-control" placeholder="Search Country..........." id="searchdata" />
+    </div>
+</form>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Country Name</th>
-            <th scope="col">Country Code</th>
-            <th scope="col">Action</th>
+<div class="card">
+    <div class="card-header d-flex justify-content-between">
+        <h3>Country List</h3>
+        <div>
+            <a type="button" class="btn btn-success btn-add" asp-area="Country" asp-controller="Country" asp-action="CountryAddEdit">Add New Country</a>
+        </div>
+    </div>
+    <div class="card-body">
 
-        </tr>
-    </thead>
-    <tbody>
+        <div class="table-responsive">
 
-        @if (Model.Rows.Count <= 0)
-        {
-            <tr>
-                <td class="col text-danger text-center">Norecord</td>
-            </tr>
-        }
-        else
-        {
-            @foreach (DataRow dataRow in Model.Rows)
-            {
-                <tr>
-                    <td>@dataRow["CountryName"]</td>
-                    <td>@dataRow["CountryCode"]</td>
-                    
-                    <td>
-                        <a type="button" class="btn btn-danger" asp-action="CountryDelete" asp-route-CountryId="@Convert.ToInt32(dataRow["CountryID"])" >Delete</a>
-                        <a type="button" class="btn btn-info" asp-area="Country" asp-controller="Country" asp-action="CountryAddEdit" asp-route-CountryId="@Convert.ToInt32(dataRow["CountryID"])" >edit</a>
-                    </td>
-                </tr>
-            }
-        }
-    </tbody>
-</table>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Country Name</th>
+                        <th scope="col">Country Code</th>
+                        <th scope="col">Action</th>
+
+                    </tr>
+                </thead>
+                <tbody id="myTable">
+
+                    @if (Model.Rows.Count <= 0)
+                    {
+                        <tr>
+                            <td class="col text-danger text-center">Norecord</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (DataRow dataRow in Model.Rows)
+                        {
+                            <tr>
+                                <td>@dataRow["CountryName"]</td>
+                                <td>@dataRow["CountryCode"]</td>
+
+                                <td>
+                                    <a type="button" class="btn btn-danger" asp-action="CountryDelete" asp-route-CountryId="@Convert.ToInt32(dataRow["CountryID"])">Delete</a>
+                                    <a type="button" class="btn btn-info" asp-area="Country" asp-controller="Country" asp-action="CountryAddEdit" asp-route-CountryId="@Convert.ToInt32(dataRow["CountryID"])">edit</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#searchdata").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+}

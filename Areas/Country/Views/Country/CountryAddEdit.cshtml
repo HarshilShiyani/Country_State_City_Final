@@ -1,21 +1,35 @@
 ﻿@model Country_State_City_Final.Areas.Country.Models.Countrymodel
 
-<form method="post" asp-action="CountrySave">
+<style>
+    input[type="text"] {
+        width: 50%;
+    }
+</style>
 
-    @Html.HiddenFor(x=>x.CountryID)
-    <div class="mb-3">
-        <label  class="form-label">Country Name</label>
-        <input type="text" class="form-control"  asp-for="CountryName" >
-        <span class="form-text" asp-validation-for="CountryName"> </span>
+<div class="card ms-5 me-5 ">
+    <div class="card-body">
+        <h4 class="card-title tex">Country Add/Edit </h4>
+
+        <form method="post" asp-area="Country" asp-controller="Country" asp-action="CountrySave">
+
+            @Html.HiddenFor(x=>x.CountryID)
+            <div class="mb-3">
+                <label class="form-label">Country Name</label>
+                <input type="text" class="form-control" asp-for="CountryName" placeholder="Country Name">
+                <span class="form-text text-danger" asp-validation-for="CountryName"> </span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Country Code</label>
+                <input type="text" class="form-control" asp-for="CountryCode" placeholder="Country Code">
+                <span class="form-text text-danger" asp-validation-for="CountryCode"> </span>
+            </div>
+
+
+
+            <button type="submit" class="btn btn-success">Submit</button>
+            <a asp-area="Country" asp-controller="Country" asp-action="CountryList" class="btn btn-primary">Back to List</a>
+
+        </form>
     </div>
-
-    <div class="mb-3">
-        <label  class="form-label">Country Code</label>
-        <input type="text" class="form-control"  asp-for="CountryCode">
-        <span class="form-text" asp-validation-for="CountryCode"> </span>
-    </div>
-    
-
-  
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+</div>

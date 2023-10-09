@@ -14,6 +14,8 @@ namespace Country_State_City_Final.Areas.Branch.Controllers
         {
             this._configuration = configuration;
         }
+
+        #region BranchList
         public IActionResult BranchList()
         {
             string connection = this._configuration.GetConnectionString("connectionString");
@@ -28,10 +30,13 @@ namespace Country_State_City_Final.Areas.Branch.Controllers
             DataTable dt = new DataTable();
             dt.Load(reader);
             sqlConnection.Close();
-            return View("BranchList",dt);
+            return View("BranchList", dt);
         }
 
-        public IActionResult BranchSave(Branchmodel branchmodel) 
+        #endregion
+
+        #region BranchSave
+        public IActionResult BranchSave(Branchmodel branchmodel)
         {
             string connection = this._configuration.GetConnectionString("connectionString");
             SqlConnection sqlConnection = new SqlConnection(connection);
@@ -40,10 +45,7 @@ namespace Country_State_City_Final.Areas.Branch.Controllers
 
             SqlCommand cmd = sqlConnection.CreateCommand();
             cmd.CommandType = CommandType.StoredProcedure;
-
-
-
-            if(branchmodel.BranchId == 0) 
+            if (branchmodel.BranchId == 0)
             {
                 cmd.CommandText = "PR_MST_BRANCH_INSERT";
             }
@@ -53,13 +55,22 @@ namespace Country_State_City_Final.Areas.Branch.Controllers
                 cmd.Parameters.Add("@BranchId", SqlDbType.Int).Value = branchmodel.BranchId;
 
             }
-
-
             cmd.Parameters.Add("@BranchName", SqlDbType.VarChar).Value = branchmodel.BranchName;
             cmd.Parameters.Add("@BranchCode", SqlDbType.VarChar).Value = branchmodel.BranchCode;
-            cmd.ExecuteNonQuery();
+            if (Convert.ToBoolean(cmd.ExecuteNonQuery()) && branchmodel.BranchId != 0)
+            {
+                TempData["branchaddeditmessage"] = "Branch edited succesfullly";
+            }
+            else
+            {
+                TempData["branchaddeditmessage"] = "New Branch Added succesfullly";
+            }
             return RedirectToAction("BranchList", "Branch", new { area = "Branch" });
         }
+
+        #endregion
+
+        #region BranchAddEdit
         public IActionResult BranchAddEdit(int? BranchId)
         {
             if (BranchId != null)
@@ -89,18 +100,24 @@ namespace Country_State_City_Final.Areas.Branch.Controllers
             }
             return View("BranchAddEdit");
         }
+
+        #endregion
+
+        #region BranchDelete
         public IActionResult BranchDelete(int BranchId)
         {
             string connection = this._configuration.GetConnectionString("connectionString");
-            SqlConnection sqlConnection= new SqlConnection(connection);
+            SqlConnection sqlConnection = new SqlConnection(connection);
             sqlConnection.Open();
             SqlCommand command = sqlConnection.CreateCommand();
-            command.CommandType= CommandType.StoredProcedure;
+            command.CommandType = CommandType.StoredProcedure;
             command.CommandText = "PR_MST_BRANCH_DELETE";
             command.Parameters.AddWithValue("@BranchId", BranchId);
             command.ExecuteNonQuery();
             sqlConnection.Close();
             return RedirectToAction("BranchList");
         }
+
+        #endregion
     }
 }

@@ -4,6 +4,15 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@if (@TempData["cityaddeditmessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle me-1"></i>
+        @TempData["cityaddeditmessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
 
 <form>
     <div class="input-group">
@@ -17,74 +26,85 @@
     </div>
 </form>
 
-<br />
-<a type="button" class="btn btn-success mt-3" asp-area="City" asp-controller="City" asp-action="CityAddEdit">Add New City</a>
+<div class="card mt-3">
 
-<form>
-    <div class="row">
-        <div class="mb-3 col-6">
-            <label class="form-label">Country Name</label>
-            <input type="text" name="CountryName" class="form-control">
-        </div>
-        <div class="mb-3 col-6">
-            <label class="form-label">State Name</label>
-            <input type="text" name="StateName" class="form-control">
-        </div> <div class="mb-3 col-6">
-            <label class="form-label">City Code</label>
-            <input type="text" name="CityCode" class="form-control">
-        </div>
-        <div class="mb-3 col-6">
-            <label class="form-label">City Name</label>
-            <input type="text" name="CityName" class="form-control">
+
+    <form class="">
+        <div class="row">
+            <div class="mb-3 col-6">
+                <label class="form-label">Country Name</label>
+                <input type="text" name="CountryName" class="form-control">
+            </div>
+            <div class="mb-3 col-6">
+                <label class="form-label">State Name</label>
+                <input type="text" name="StateName" class="form-control">
+            </div> <div class="mb-3 col-6">
+                <label class="form-label">City Code</label>
+                <input type="text" name="CityCode" class="form-control">
+            </div>
+            <div class="mb-3 col-6">
+                <label class="form-label">City Name</label>
+                <input type="text" name="CityName" class="form-control">
+            </div>
+            <div>
+            <button type="submit" class="btn btn-primary" asp-area="City" asp-controller="City" asp-action="CityFilter">Apply filter</button>
+            </div>
         </div>
 
-        <button type="submit" class="btn btn-primary col-1 " asp-area="City" asp-controller="City" asp-action="CityFilter">Apply filter</button>
+    </form>
 
+
+    <div class="card-header d-flex justify-content-between">
+        <h3>City List</h3>
+        <div>
+            <a type="button" class="btn btn-success" asp-area="City" asp-controller="City" asp-action="CityAddEdit">Add New City</a>
+
+        </div>
     </div>
+    <div class="card-body">
 
-</form>
+        <div class="table-responsive">
 
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="col">CityName</th>
+                        <th class="col">CityCode</th>
+                        <th class="col">StateName</th>
+                        <th class="col">CountryName</th>
+                        <th class="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="myTable">
+                    @if (Model.Rows.Count <= 0)
+                    {
+                        <tr>
+                            <td class="col text-danger">Norecord</td>
+                        </tr>
+                    }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th class="col">City id</th>
-            <th class="col">CityName</th>
-            <th class="col">CityCode</th>
-            <th class="col">StateName</th>
-            <th class="col">CountryName</th>
-            <th class="col">Action</th>
-        </tr>
-    </thead>
-    <tbody id="myTable">
-        @if (Model.Rows.Count <= 0)
-        {
-            <tr>
-                <td class="col text-danger">Norecord</td>
-            </tr>
-        }
+                    else
+                    {
+                        @foreach (DataRow dataRow in Model.Rows)
+                        {
+                            <tr>
+                                <td> @dataRow["CityName"]</td>
+                                <td> @dataRow["CityCode"]</td>
+                                <td> @dataRow["StateName"]</td>
+                                <td> @dataRow["CountryName"]</td>
+                                <td>
+                                    <a type="button" class="btn btn-danger " @* asp-route-CityId="@Convert.ToInt32(dataRow["CityId"])" *@ onclick="confirmDelete(@dataRow["CityId"])">Delete</a>
+                                    <a type="button" class="btn btn-info" asp-route-CityId="@Convert.ToInt32(dataRow["CityId"])" asp-action="CityAddEdit">Edit</a>
+                                </td>
+                            </tr>
+                        }
 
-        else
-        {
-            @foreach (DataRow dataRow in Model.Rows)
-            {
-                <tr>
-                    <td> @dataRow["CityId"]</td>
-                    <td> @dataRow["CityName"]</td>
-                    <td> @dataRow["CityCode"]</td>
-                    <td> @dataRow["StateName"]</td>
-                    <td> @dataRow["CountryName"]</td>
-                    <td>
-                        <a type="button" class="btn btn-danger " @* asp-route-CityId="@Convert.ToInt32(dataRow["CityId"])" *@ onclick="confirmDelete(@dataRow["CityId"])">Delete</a>
-                        <a type="button" class="btn btn-info" asp-route-CityId="@Convert.ToInt32(dataRow["CityId"])" asp-action="CityAddEdit">Edit</a>
-                    </td>
-                </tr>
-            }
-
-        }
-    </tbody>
-</table>
-
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     <script>
@@ -141,7 +161,7 @@
 
 
 
-}
+        }
 
 
 

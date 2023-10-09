@@ -1,9 +1,10 @@
 ﻿@using System.Data
 
 
-<h1>@ViewBag.tempstring</h1>
+<h5 class="text-success text-center">@TempData["stateaddeditmessage"] </h5>
+
 <form>
-    <div class="input-group">
+    <div class="input-group mb-3 mt-3">
         <span class="input-group-text" id="basic-addon1">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
@@ -11,15 +12,24 @@
         </span>
 
         <input type="text" class="form-control" placeholder="Search State..........." id="searchdata" />
-        @*         <a type="button" id="searchbtn" class="btn btn-success ms-1" asp-route-serchstring="" onclick="myfunction()">Search</a>
-        *@
     </div>
 </form>
-<a type="button" class="btn btn-success mt-3" asp-area="State" asp-controller="State" asp-action="StateAddEdit">Add New State</a>
+<div class="card">
+    <div class="card-header d-flex justify-content-between">
+        <h3>State List</h3>
+        <div>
+            <a type="button" class="btn btn-success" asp-area="State" asp-controller="State" asp-action="StateAddEdit">Add New State</a>
+
+        </div>
+    </div>
 
 
-<table class="table">
-    <thead>
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-striped">
+                    <thead>
         <tr>
             <th scope="col">StateName</th>
             <th scope="col">StateCode</th>
@@ -56,7 +66,9 @@
 
     </tbody>
 </table>
-
+</div>
+</div>
+</div>
 
 @section Scripts {
     <script>

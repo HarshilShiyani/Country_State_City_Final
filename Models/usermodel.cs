@@ -11,7 +11,7 @@ namespace Country_State_City_Final.Models
             password = GenerateRandomPassword();
         }
 
-        [Required]
+        [Required(ErrorMessage = "Please Enter Username/Email")]
         
         public string? username { get; set; }
         [Required]

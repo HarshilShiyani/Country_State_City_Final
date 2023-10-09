@@ -1,4 +1,5 @@
 ﻿@model Country_State_City_Final.Areas.Branch.Models.Branchmodel
+<h3 class="text-center ">Branch Add/Edit</h3>
 
 <form method="post" asp-action="BranchSave">
 
@@ -15,5 +16,7 @@
         <span class="form-text" asp-validation-for="BranchCode"> </span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-success">Submit</button>
+    <a asp-area="Branch" asp-controller="Branch" asp-action="BranchList" class="btn btn-primary">Back to List</a>
+
 </form>

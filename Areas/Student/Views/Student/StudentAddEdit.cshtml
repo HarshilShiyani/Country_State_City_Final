@@ -3,7 +3,15 @@
 }
 @using System.Data
 @model Country_State_City_Final.Areas.Student.Models.Studentmodel
+<style>
+    input[type="text"], input[type="date"], #inputCity, #inputBranch {
+        width: 50%;
+    }
+</style>
 
+<div class="card ms-5 me-5 ">
+    <div class="card-body">
+        <h4 class="card-title tex">Country Add/Edit </h4>
 
 <form method="post" asp-controller="Student" asp-action="StudentSave">
     @Html.HiddenFor(x=>x.StudentId)
@@ -16,13 +24,13 @@
     <div class="mb-3">
         <label class="form-label">Gender</label>
         <div class="form-check">
-            <input class="form-check-input" type="radio"  asp-for="Gender" value="male">
+            <input class="form-check-input" type="radio" asp-for="Gender" value="male">
             <label class="form-check-label" for="flexRadioDefault1">
                 Male
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="radio"  asp-for="Gender" value="female">
+            <input class="form-check-input" type="radio" asp-for="Gender" value="female">
             <label class="form-check-label" for="flexRadioDefault2">
                 Female
             </label>
@@ -31,7 +39,7 @@
 
     </div>
 
-    
+
 
     <div class="mb-3">
         <label class="form-label">MobileNoStudent</label>
@@ -65,7 +73,7 @@
 
     <div class="mb-3">
         <label class="form-label">City Name</label>
-        <select id="inputState" class="form-control" asp-for="CityID"
+        <select id="inputCity" class="form-control" asp-for="CityID"
                 asp-items="@(new SelectList(ViewBag.citylist,"CityId","CityName"))">
 
             <option disabled selected>Select City</option>
@@ -77,7 +85,7 @@
 
     <div class="mb-3">
         <label class="form-label">Branch Name</label>
-        <select id="inputState" class="form-control" asp-for="BranchID"
+        <select id="inputBranch" class="form-control" asp-for="BranchID"
                 asp-items="@(new SelectList(ViewBag.branchlist,"BranchId","BranchName"))">
 
             <option disabled selected>Select Branch</option>
@@ -87,5 +95,9 @@
 
     </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-success">Submit</button>
+    <a asp-area="Student" asp-controller="Student" asp-action="StudentList" class="btn btn-primary">Back to List</a>
+
 </form>
+</div>
+</div>

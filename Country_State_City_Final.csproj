@@ -7,11 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\State\Student\**" />
+    <Content Remove="Areas\State\Student\**" />
+    <EmbeddedResource Remove="Areas\State\Student\**" />
+    <None Remove="Areas\State\Student\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Areas\Branch\Data\" />
     <Folder Include="Areas\City\Data\" />
     <Folder Include="Areas\Country\Data\" />
     <Folder Include="Areas\State\Data\" />
-    <Folder Include="Areas\Student\Data\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -16,6 +16,8 @@ namespace Country_State_City_Final.Areas.City.Controllers
         {
             this._configuration = configuration;
         }
+
+        #region CityList
         public IActionResult CityList()
         {
             string connection = this._configuration.GetConnectionString("connectionString");
@@ -31,6 +33,9 @@ namespace Country_State_City_Final.Areas.City.Controllers
             return View("CityList", dt);
         }
 
+        #endregion
+
+        #region CityAddEdit
         public IActionResult CityAddEdit(int? CityId)
         {
             FillCountryDDL();
@@ -64,6 +69,9 @@ namespace Country_State_City_Final.Areas.City.Controllers
             return View("CityAddEdit");
         }
 
+        #endregion
+
+        #region FillCountryDDL
         public void FillCountryDDL()
         {
 
@@ -91,6 +99,9 @@ namespace Country_State_City_Final.Areas.City.Controllers
             ViewBag.CountryList = countrylist;
         }
 
+        #endregion
+
+        #region FillStateDDL
         public void FillStateDDL()
         {
             string str = this._configuration.GetConnectionString("connectionString");
@@ -117,6 +128,9 @@ namespace Country_State_City_Final.Areas.City.Controllers
             ViewBag.StateList = Statelist;
         }
 
+        #endregion
+
+        #region CitySave
         public IActionResult CitySave(CityModel CityModel, int CityId)
         {
             string connection = this._configuration.GetConnectionString("connectionString");
@@ -143,12 +157,22 @@ namespace Country_State_City_Final.Areas.City.Controllers
             cmd.Parameters.AddWithValue("@Citycode", CityModel.CityCode);
 
 
-            cmd.ExecuteNonQuery();
+            if (Convert.ToBoolean(cmd.ExecuteNonQuery()) && CityId != 0)
+            {
+                TempData["cityaddeditmessage"] = "City edited succesfullly";
+            }
+            else
+            {
+                TempData["cityaddeditmessage"] = "New City Added succesfullly";
+            }
             sqlConnection.Close();
 
             return RedirectToAction("CityList", "City", new { area = "City" });
         }
 
+        #endregion
+
+        #region CityDelete
         public IActionResult CityDelete(int CityId)
         {
             string connection = this._configuration.GetConnectionString("connectionString");
@@ -163,7 +187,9 @@ namespace Country_State_City_Final.Areas.City.Controllers
             return RedirectToAction("CityList");
         }
 
+        #endregion
 
+        #region DropDownByCountry
         public IActionResult DropDownByCountry(int CountryId)
         {
             string str = this._configuration.GetConnectionString("connectionString");
@@ -191,6 +217,9 @@ namespace Country_State_City_Final.Areas.City.Controllers
             return Json(vModel);
         }
 
+        #endregion
+
+        #region CityFilter
         public IActionResult CityFilter(CityModel cityModel)
         {
             string connection = this._configuration.GetConnectionString("connectionString");
@@ -212,6 +241,6 @@ namespace Country_State_City_Final.Areas.City.Controllers
             return View("CityList", dt);
         }
 
-
+        #endregion
     }
 }

@@ -17,6 +17,7 @@ namespace Country_State_City_Final.Areas.Student.Controllers
             this._configuration = configuration;
         }
 
+        #region StudentList
         public IActionResult StudentList()
         {
             string connectionstr = this._configuration.GetConnectionString("connectionString");
@@ -31,6 +32,9 @@ namespace Country_State_City_Final.Areas.Student.Controllers
             return View(dt);
         }
 
+        #endregion
+
+        #region StudentAddEdit
         public IActionResult StudentAddEdit(int? StudentID)
         {
             FillCityDDL();
@@ -63,9 +67,11 @@ namespace Country_State_City_Final.Areas.Student.Controllers
                 }
                 return View("StudentAddEdit", model);
             }
-           
+
             return View("StudentAddEdit");
         }
+
+        #endregion
 
         #region StudentSave
         public IActionResult StudentSave(Studentmodel model)
@@ -101,15 +107,17 @@ namespace Country_State_City_Final.Areas.Student.Controllers
             ObjCmd.ExecuteNonQuery();
             if (Convert.ToBoolean( ObjCmd.ExecuteNonQuery()) && model.StudentId == 0)
             {
-                TempData["messege"] = "Succesfully inseted";
+                TempData["messege"] = "Student Added succesfullly";
             }
             else if (Convert.ToBoolean(ObjCmd.ExecuteNonQuery()) && model.StudentId !=0)
             {
-                TempData["messege"] = "Succesfully updaed";
+                TempData["messege"] = "Student updated succesfullly";
             }
             return RedirectToAction("StudentList");
         }
         #endregion
+
+        #region StudentDelete
         public IActionResult StudentDelete(int StudentId)
         {
             string connectionstr = this._configuration.GetConnectionString("connectionString");
@@ -123,6 +131,9 @@ namespace Country_State_City_Final.Areas.Student.Controllers
             return RedirectToAction("StudentList");
         }
 
+        #endregion
+
+        #region FillCityDDL
         public void FillCityDDL()
         {
 
@@ -149,6 +160,10 @@ namespace Country_State_City_Final.Areas.Student.Controllers
             sqlConnection.Close();
             ViewBag.citylist = citylist;
         }
+
+        #endregion
+
+        #region FillBranchDDL
         public void FillBranchDDL()
         {
 
@@ -176,7 +191,9 @@ namespace Country_State_City_Final.Areas.Student.Controllers
             ViewBag.branchlist = branchlist;
         }
 
-        [HttpPost]
+        #endregion
+
+        #region SendMail
         public IActionResult SendMail(EmailModel emailModel)
         {
             using (MailMessage mm = new MailMessage(emailModel.Email, emailModel.To))
@@ -199,18 +216,21 @@ namespace Country_State_City_Final.Areas.Student.Controllers
                     smtp.Port = 587;
                     smtp.Send(mm);
                     TempData["mailmessege"] = "Successfully mail sended to ";
-                    @TempData["To"]=emailModel.To;  
+                    @TempData["To"] = emailModel.To;
                 }
             }
 
             return RedirectToAction("GmailFormpage", "Student", new { area = "Student" });
         }
 
+        #endregion
+
+        #region GmailFormpage
         public IActionResult GmailFormpage()
-        { 
-            return View(); 
+        {
+            return View();
         }
 
-
+        #endregion
     }
 }

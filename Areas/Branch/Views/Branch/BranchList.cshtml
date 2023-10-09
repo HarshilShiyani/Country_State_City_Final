@@ -1,12 +1,13 @@
 ﻿@model DataTable
 @using System.Data
+<h3 class="text-center ">Branch List</h3>
+<h5 class="text-success text-center">@TempData["branchaddeditmessage"] </h5>
 
 <a type="button" class="btn btn-success mt-1" asp-area="Branch" asp-controller="Branch" asp-action="BranchAddEdit">Add New Branch</a>
 
 <table class="table">
     <thead>
         <tr>
-            <th scope="col">Branch id</th>
             <th scope="col">Branch Name</th>
             <th scope="col">Branch Code</th>
             <th scope="col">Action</th>
@@ -26,12 +27,12 @@
             @foreach (DataRow dataRow in Model.Rows)
             {
                 <tr>
-                    <td>@dataRow["BranchId"]</td>
                     <td>@dataRow["BranchName"]</td>
                     <td>@dataRow["BranchCode"]</td>
+
                     <td>
-                        <a type="button" class="btn btn-danger" asp-area="Branch" asp-controller="Branch" asp-action="BranchDelete" asp-route-BranchId="@Convert.ToInt32(dataRow["BranchId"])">Delete</a>
-                        <a type="button" class="btn btn-warning" asp-area="Branch" asp-controller="Branch" asp-action="BranchAddEdit" asp-route-BranchId="@Convert.ToInt32(dataRow["BranchId"])">edit</a>
+                        <a type="button" class="btn btn-danger" asp-area="Branch" asp-controller="Branch" asp-action="BranchDelete" asp-route-BranchId="@Convert.ToInt32(@dataRow["BranchId"])">Delete</a>
+                        <a type="button" class="btn btn-warning" asp-area="Branch" asp-controller="Branch" asp-action="BranchDelete" asp-route-BranchId="@Convert.ToInt32(@dataRow["BranchId"])">edit</a>
                     </td>
                 </tr>
             }

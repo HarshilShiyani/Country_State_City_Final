@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
 using System.Data;
 using Country_State_City_Final.Areas.State.Models;
+using System.Reflection;
 
 namespace Country_State_City_Final.Areas.State.Controllers
 {
@@ -10,13 +11,13 @@ namespace Country_State_City_Final.Areas.State.Controllers
     [Route("State/[controller]/[action]")]
     public class StateController : Controller
     {
-
         private readonly IConfiguration _configuration;
         public StateController(IConfiguration configuration)
         {
             this._configuration = configuration;
         }
 
+        #region StateAddEdit
         public IActionResult StateAddEdit(int? StateId)
         {
 
@@ -48,6 +49,9 @@ namespace Country_State_City_Final.Areas.State.Controllers
             return View("StateAddEdit");
         }
 
+        #endregion
+
+        #region StateDelete
         public IActionResult StateDelete(int StateId)
         {
             string connection = this._configuration.GetConnectionString("connectionString");
@@ -62,6 +66,9 @@ namespace Country_State_City_Final.Areas.State.Controllers
             return RedirectToAction("StateList");
         }
 
+        #endregion
+
+        #region FillCountryDDL
         public void FillCountryDDL()
         {
 
@@ -89,6 +96,9 @@ namespace Country_State_City_Final.Areas.State.Controllers
             ViewBag.CountryList = countrylist;
         }
 
+        #endregion
+
+        #region StateList
         public IActionResult StateList(string serchstring)
         {
             string connection = this._configuration.GetConnectionString("connectionString");
@@ -104,6 +114,9 @@ namespace Country_State_City_Final.Areas.State.Controllers
             return View("StateList", dt);
         }
 
+        #endregion
+
+        #region StateSave
         public IActionResult StateSave(StateModel stateModel, int StateId)
         {
             string connection = this._configuration.GetConnectionString("connectionString");
@@ -128,10 +141,19 @@ namespace Country_State_City_Final.Areas.State.Controllers
             cmd.Parameters.AddWithValue("@Statecode", stateModel.StateCode);
 
 
-            cmd.ExecuteNonQuery();
+            if (Convert.ToBoolean(cmd.ExecuteNonQuery()) && StateId != 0)
+            {
+                TempData["stateaddeditmessage"] = "State edited succesfullly";
+            }
+            else
+            {
+                TempData["stateaddeditmessage"] = "New State Added succesfullly";
+            }
             sqlConnection.Close();
 
             return RedirectToAction("StateList", "State", new { area = "State" });
         }
+
+        #endregion
     }
 }

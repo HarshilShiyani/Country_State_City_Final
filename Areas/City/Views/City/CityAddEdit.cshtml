@@ -4,6 +4,7 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<h3 class="text-center ">City Add/Edit</h3>
 
 <form method="post" asp-action="CitySave">
     @Html.HiddenFor(x=>x.CityId)
@@ -42,7 +43,9 @@
         <input type="text" class="form-control" asp-for="CityCode">
         <span class="form-text" asp-validation-for="CityCode"> </span>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-success">Submit</button>
+    <a asp-area="City" asp-controller="City" asp-action="CityList" class="btn btn-primary">Back to List</a>
+
 </form>
 
 @section Scripts{
